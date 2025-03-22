@@ -3,7 +3,7 @@
 
 import UIKit
 
-class AccordionCell: UICollectionViewCell {
+class ExpandableCell: UICollectionViewCell {
     
     private var isExpanded = false
     private let expandableView: UIView = {
