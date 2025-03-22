@@ -3,7 +3,7 @@
 
 import UIKit
 
-public class ExpandableCell: UICollectionViewCell {
+open class ExpandableCell: UICollectionViewCell {
     
     private var isExpanded = false
     private let expandableView: UIView = {
@@ -26,7 +26,7 @@ public class ExpandableCell: UICollectionViewCell {
         ])
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
