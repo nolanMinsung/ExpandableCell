@@ -5,8 +5,8 @@ import UIKit
 
 open class ExpandableCell: UICollectionViewCell {
     
-    private(set) var originalView = UIView()
-    private(set) var additionalView = UIView()
+    public var originalView = UIView()
+    public var additionalView = UIView()
     
     private lazy var shrinkedBottomConstraint = originalView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     private lazy var expandedBottomConstraint = additionalView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
