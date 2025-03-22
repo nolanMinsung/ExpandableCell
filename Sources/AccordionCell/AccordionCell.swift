@@ -36,11 +36,15 @@ open class ExpandableCell: UICollectionViewCell {
         originalView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
         originalView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0).isActive = true
 //        originalView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
+        
+        expandedBottomConstraint.isActive = isSelected
+        shrinkedBottomConstraint.isActive = !isSelected
+        contentView.layoutIfNeeded()
     }
     
     private func setAppearance() {
-        expandedBottomConstraint.isActive = isSelected
-        shrinkedBottomConstraint.isActive = !isSelected
+//        expandedBottomConstraint.isActive = isSelected
+//        shrinkedBottomConstraint.isActive = !isSelected
         contentView.layoutIfNeeded()
     }
     
