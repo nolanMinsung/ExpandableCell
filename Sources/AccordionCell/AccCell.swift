@@ -8,16 +8,18 @@ protocol WidthAdoptable {
 }
 
 open class AccCell: UICollectionViewCell {
-
-//MARK: - Properties
-
-private let collectionViewHorizontalSectionInset: CGFloat = 24
-private lazy var widthConstraint = contentView.widthAnchor.constraint(
-    equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
-)
-
-private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    
+    //MARK: - Properties
+    
+    private let collectionViewHorizontalSectionInset: CGFloat = 24
+    private lazy var widthConstraint = contentView.widthAnchor.constraint(
+        equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
+    )
+    
+    private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    
+    private var emptyView = UIView()
     
     override public var isSelected: Bool {
         didSet { setAppearance() }
@@ -25,7 +27,7 @@ private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(eq
     
     @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
     open override var contentView: UIView {
-        return self.upperView
+        return self.emptyView
     }
     
     //MARK: - UI Properties
@@ -63,6 +65,7 @@ extension AccCell {
     }
     
     private func setupStyle() {
+        emptyView.isHidden = true
         
         upperView.clipsToBounds = true
         upperView.backgroundColor = .orange
@@ -71,8 +74,13 @@ extension AccCell {
     }
     
     private func setupLayout() {
+        emptyView.frame = .zero
+        
         widthConstraint.priority = .defaultHigh
         widthConstraint.isActive = true
+        
+        upperView.translatesAutoresizingMaskIntoConstraints = false
+        lowerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             upperView.topAnchor.constraint(equalTo: contentView.topAnchor),
