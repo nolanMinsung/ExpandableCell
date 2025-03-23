@@ -1,6 +1,6 @@
 //
-//  AccordionCollectionView.swift
-//  AccordionCell
+//  FoldableCellCollectionView.swift
+//  FoldableCell
 //
 //  Created by 김민성 on 3/23/25.
 //
@@ -44,7 +44,7 @@ public class FoldableCellCollectionView: UICollectionView {
     
     // MARK: - Private Properties
     
-    private let logger = OSLog(subsystem: "com.minsung.accordioncell", category: "Validation")
+    private let logger = OSLog(subsystem: "com.minsung.foldablecell", category: "Validation")
     private let cellSelectionOperationQueue = OperationQueue()
     private var sectionInset: UIEdgeInsets = .zero
     private var minimumLineSpacing: CGFloat = 0

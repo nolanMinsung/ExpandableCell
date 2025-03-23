@@ -4,24 +4,24 @@
 import PackageDescription
 
 let package = Package(
-    name: "AccordionCell",
+    name: "FoldableCell",
     platforms: [
         .iOS(.v15)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "AccordionCell",
-            targets: ["AccordionCell"]),
+            name: "FoldableCell",
+            targets: ["FoldableCell"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "AccordionCell"),
+            name: "FoldableCell"),
         .testTarget(
-            name: "AccordionCellTests",
-            dependencies: ["AccordionCell"]
+            name: "FoldableCellTests",
+            dependencies: ["FoldableCell"]
         ),
     ],
     swiftLanguageModes: [.v5]

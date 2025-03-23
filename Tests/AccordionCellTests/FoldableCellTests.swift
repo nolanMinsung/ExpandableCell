@@ -1,7 +1,7 @@
 import XCTest
-@testable import AccordionCell
+@testable import FoldableCell
 
-final class AccordionCellTests: XCTestCase {
+final class FoldableCellTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
