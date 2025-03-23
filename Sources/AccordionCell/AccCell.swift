@@ -79,7 +79,7 @@ extension AccCell {
         lowerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            upperView.topAnchor.constraint(equalTo: upperView.topAnchor),
+            upperView.topAnchor.constraint(equalTo: contentView.topAnchor),
             upperView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             upperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
