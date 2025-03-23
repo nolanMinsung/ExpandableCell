@@ -7,26 +7,24 @@
 
 import UIKit
 
-//import Then
-
 open class AccCellCollectionView: UICollectionView {
     
     private let cellSelectionOperationQueue = OperationQueue()
-    
-    var sectionInset: UIEdgeInsets = .zero
-    var minimumLineSpacing: CGFloat = 0
-    var minimumInteritemSpacing: CGFloat = 0
+    private var sectionInset: UIEdgeInsets = .zero
+    private var minimumLineSpacing: CGFloat = 0
+    private var minimumInteritemSpacing: CGFloat = 0
     
     public init(
         sectionInset: UIEdgeInsets = .zero,
-        minimumLineSpacing: CGFloat = .zero,
-        minimumInteritemSpacing: CGFloat = .zero
+        minimumLineSpacing: CGFloat = .zero
     ) {
+        self.sectionInset = sectionInset
+        self.minimumLineSpacing = minimumLineSpacing
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         flowLayout.sectionInset = sectionInset
         flowLayout.minimumLineSpacing = minimumLineSpacing
-        flowLayout.minimumInteritemSpacing = minimumInteritemSpacing
+        flowLayout.minimumInteritemSpacing = .zero
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
@@ -45,8 +43,7 @@ open class AccCellCollectionView: UICollectionView {
                                        left: horizontalInset,
                                        bottom: verticalInset,
                                        right: horizontalInset),
-            minimumLineSpacing: minimumLineSpacing,
-            minimumInteritemSpacing: minimumInteritemSpacing
+            minimumLineSpacing: minimumLineSpacing
         )
     }
     
@@ -57,8 +54,7 @@ open class AccCellCollectionView: UICollectionView {
     ) {
         self.init(
             sectionInset: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset),
-            minimumLineSpacing: minimumLineSpacing,
-            minimumInteritemSpacing: minimumInteritemSpacing
+            minimumLineSpacing: minimumLineSpacing
         )
     }
     
@@ -69,6 +65,12 @@ open class AccCellCollectionView: UICollectionView {
 }
 
 extension AccCellCollectionView: UICollectionViewDelegate {
+    
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let accCell = cell as? AccCell else { return }
+        let horizontalSectionInset: CGFloat = sectionInset.left + sectionInset.right
+        accCell.updateWidth(collectionView.bounds.width - horizontalSectionInset)
+    }
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         

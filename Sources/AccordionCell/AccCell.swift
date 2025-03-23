@@ -3,10 +3,6 @@
 
 import UIKit
 
-protocol WidthAdoptable {
-    func adoptWidth(_ width: CGFloat)
-}
-
 open class AccCell: UICollectionViewCell {
     
     //MARK: - Properties
@@ -48,7 +44,7 @@ open class AccCell: UICollectionViewCell {
     
 }
 
-extension AccCell {
+private extension AccCell {
     
     //MARK: - Private Func
     
@@ -58,6 +54,7 @@ extension AccCell {
     }
     
     private func setupStyle() {
+        contentView.clipsToBounds = true
         upperView.clipsToBounds = true
         lowerView.clipsToBounds = true
     }
@@ -86,11 +83,9 @@ extension AccCell {
         
         expandedBottomConstraint.isActive = isSelected
         shrinkedBottomConstraint.isActive = !isSelected
-        lowerView.isHidden = !isSelected
     }
     
     private func setAppearance() {
-//        lowerView.isHidden = !isSelected
         expandedBottomConstraint.isActive = isSelected
         shrinkedBottomConstraint.isActive = !isSelected
         contentView.updateConstraints()
@@ -99,9 +94,9 @@ extension AccCell {
     
 }
 
-extension AccCell: WidthAdoptable {
+public extension AccCell {
     
-    public func adoptWidth(_ width: CGFloat) {
+    public func updateWidth(_ width: CGFloat) {
         self.widthConstraint.constant = width
         setAppearance()
     }
