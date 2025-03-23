@@ -8,25 +8,25 @@ protocol WidthAdoptable {
 }
 
 open class AccCell: UICollectionViewCell {
-    
-    //MARK: - Properties
-    
-    private let collectionViewHorizontalSectionInset: CGFloat = 24
-    private lazy var widthConstraint = contentView.widthAnchor.constraint(
-        equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
-    )
-    
-    private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-    private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+
+//MARK: - Properties
+
+private let collectionViewHorizontalSectionInset: CGFloat = 24
+private lazy var widthConstraint = contentView.widthAnchor.constraint(
+    equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
+)
+
+private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     
     override public var isSelected: Bool {
         didSet { setAppearance() }
     }
     
-    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
-    open override var contentView: UIView {
-        return self.upperView
-    }
+//    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
+//    open override var contentView: UIView {
+//        return self.upperView
+//    }
     
     //MARK: - UI Properties
     
