@@ -38,7 +38,7 @@ private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(eq
     
     //MARK: - Life Cycle
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         setupViewHierarchy()
