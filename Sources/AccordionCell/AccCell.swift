@@ -13,7 +13,6 @@ open class AccCell: UICollectionViewCell {
     
     private let collectionViewHorizontalSectionInset: CGFloat = 24
     private lazy var widthConstraint = contentView.widthAnchor.constraint(
-//        equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
         equalToConstant: 0
     )
     
@@ -24,10 +23,10 @@ open class AccCell: UICollectionViewCell {
         didSet { setAppearance() }
     }
     
-//    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
-//    open override var contentView: UIView {
-//        return self.emptyView
-//    }
+    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
+    open override var contentView: UIView {
+        return self.contentView
+    }
     
     //MARK: - UI Properties
     
@@ -59,16 +58,13 @@ extension AccCell {
     //MARK: - Private Func
     
     private func setupViewHierarchy() {
-        contentView.backgroundColor = .lightGray
         contentView.addSubview(upperView)
         contentView.addSubview(lowerView)
     }
     
     private func setupStyle() {
         upperView.clipsToBounds = true
-        upperView.backgroundColor = .orange
         lowerView.clipsToBounds = true
-        lowerView.backgroundColor = .lightGray
     }
     
     private func setupLayout() {
@@ -84,20 +80,11 @@ extension AccCell {
             upperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
-//        upperView.snp.makeConstraints { make in
-//            make.top.horizontalEdges.equalToSuperview()
-//        }
-        
         NSLayoutConstraint.activate([
             lowerView.topAnchor.constraint(equalTo: upperView.bottomAnchor),
             lowerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             lowerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-        
-//        lowerView.snp.makeConstraints { make in
-//            make.top.equalTo(upperView.snp.bottom)
-//            make.horizontalEdges.equalToSuperview()
-//        }
         
         expandedBottomConstraint.priority = .defaultLow
         shrinkedBottomConstraint.priority = .defaultLow
