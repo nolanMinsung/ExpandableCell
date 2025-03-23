@@ -13,15 +13,14 @@ open class AccCell: UICollectionViewCell {
     
     private let collectionViewHorizontalSectionInset: CGFloat = 24
     private lazy var widthConstraint = contentView.widthAnchor.constraint(
-        equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
+//        equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
+        equalToConstant: 0
     )
     
     private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     
-    private var emptyView = UIView()
-    
-    override public var isSelected: Bool {
+    open override var isSelected: Bool {
         didSet { setAppearance() }
     }
     
@@ -66,8 +65,6 @@ extension AccCell {
     }
     
     private func setupStyle() {
-        emptyView.isHidden = true
-        
         upperView.clipsToBounds = true
         upperView.backgroundColor = .orange
         lowerView.clipsToBounds = true
@@ -75,8 +72,6 @@ extension AccCell {
     }
     
     private func setupLayout() {
-        emptyView.frame = .zero
-        
         widthConstraint.priority = .defaultHigh
         widthConstraint.isActive = true
         
@@ -84,7 +79,7 @@ extension AccCell {
         lowerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            upperView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            upperView.topAnchor.constraint(equalTo: upperView.topAnchor),
             upperView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             upperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
@@ -94,7 +89,7 @@ extension AccCell {
 //        }
         
         NSLayoutConstraint.activate([
-            lowerView.topAnchor.constraint(equalTo: contentView.bottomAnchor),
+            lowerView.topAnchor.constraint(equalTo: upperView.bottomAnchor),
             lowerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             lowerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
