@@ -13,7 +13,7 @@ open class AccCellCollectionView: UICollectionView {
     
     private let cellSelectionOperationQueue = OperationQueue()
     
-    init() {
+    public convenience init() {
 //        let collectionViewHorizontalInset: CGFloat = 24
         let collectionViewHorizontalInset: CGFloat = 0
         let collectionViewVerticalInset: CGFloat = 20
@@ -32,11 +32,19 @@ open class AccCellCollectionView: UICollectionView {
 //        flowLayout.estimatedItemSize = CGSize(width: itemWidth, height: 125)
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
-        super.init(frame: .zero, collectionViewLayout: flowLayout)
+        self.init(frame: .zero, collectionViewLayout: flowLayout)
         
         setupStyle()
         setupDelegates()
     }
+    
+    override public init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        
+        setupStyle()
+        setupDelegates()
+    }
+    
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
