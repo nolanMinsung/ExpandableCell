@@ -90,7 +90,7 @@ extension AccCell {
     }
     
     private func setAppearance() {
-        lowerView.isHidden = !isSelected
+//        lowerView.isHidden = !isSelected
         expandedBottomConstraint.isActive = isSelected
         shrinkedBottomConstraint.isActive = !isSelected
         contentView.updateConstraints()
