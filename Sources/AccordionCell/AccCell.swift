@@ -16,8 +16,8 @@ open class AccCell: UICollectionViewCell {
         equalToConstant: (UIScreen.main.bounds.width - collectionViewHorizontalSectionInset * 3)
     )
     
-    private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+    private lazy var expandedBottomConstraint = lowerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     
     private var emptyView = UIView()
     
@@ -40,6 +40,7 @@ open class AccCell: UICollectionViewCell {
     
     //MARK: - Life Cycle
     
+    /// 재정의 시 반드시 super 호출
     override public init(frame: CGRect) {
         super.init(frame: frame)
         

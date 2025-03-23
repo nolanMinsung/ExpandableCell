@@ -72,7 +72,10 @@ extension AccCellCollectionView: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
-        guard collectionView.cellForItem(at: indexPath) is AccCell else { return true }
+        guard collectionView.cellForItem(at: indexPath) is AccCell else {
+            print("collectionView에 register된 cell이 AccCell이 아님")
+            return true
+        }
         let animator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 1)
         animator.addAnimations {
             if collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false {
