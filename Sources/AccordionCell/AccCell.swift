@@ -25,10 +25,10 @@ open class AccCell: UICollectionViewCell {
         didSet { setAppearance() }
     }
     
-    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
-    open override var contentView: UIView {
-        return self.emptyView
-    }
+//    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
+//    open override var contentView: UIView {
+//        return self.emptyView
+//    }
     
     //MARK: - UI Properties
     
