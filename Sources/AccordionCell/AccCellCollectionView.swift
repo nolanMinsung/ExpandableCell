@@ -13,52 +13,57 @@ open class AccCellCollectionView: UICollectionView {
     
     private let cellSelectionOperationQueue = OperationQueue()
     
-    init() {
-//        let collectionViewHorizontalInset: CGFloat = 24
-        let collectionViewHorizontalInset: CGFloat = 0
-        let collectionViewVerticalInset: CGFloat = 20
-        let itemWidth = floor(UIScreen.main.bounds.width - collectionViewHorizontalInset * 2)
-        
+    var sectionInset: UIEdgeInsets = .zero
+    var minimumLineSpacing: CGFloat = 0
+    var minimumInteritemSpacing: CGFloat = 0
+    
+    init(
+        sectionInset: UIEdgeInsets = .zero,
+        minimumLineSpacing: CGFloat = .zero,
+        minimumInteritemSpacing: CGFloat = .zero
+    ) {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = .init(
-            top: collectionViewVerticalInset,
-            left: collectionViewHorizontalInset,
-            bottom: 40,
-            right: collectionViewHorizontalInset
-        )
-        flowLayout.minimumLineSpacing = 16
-        flowLayout.minimumInteritemSpacing = 100
-//        flowLayout.estimatedItemSize = CGSize(width: itemWidth, height: 125)
+        flowLayout.sectionInset = sectionInset
+        flowLayout.minimumLineSpacing = minimumLineSpacing
+        flowLayout.minimumInteritemSpacing = minimumInteritemSpacing
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
         
-        setupStyle()
-        setupDelegates()
+        self.delegate = self
     }
     
-    override internal init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-        
-        setupStyle()
-        setupDelegates()
+    convenience init(
+        verticalInset: CGFloat,
+        horizontalInset: CGFloat,
+        minimumLineSpacing: CGFloat = .zero,
+        minimumInteritemSpacing: CGFloat = .zero
+    ) {
+        self.init(
+            sectionInset: UIEdgeInsets(top: verticalInset,
+                                       left: horizontalInset,
+                                       bottom: verticalInset,
+                                       right: horizontalInset),
+            minimumLineSpacing: minimumLineSpacing,
+            minimumInteritemSpacing: minimumInteritemSpacing
+        )
+    }
+    
+    convenience init(
+        inset: CGFloat,
+        minimumLineSpacing: CGFloat = .zero,
+        minimumInteritemSpacing: CGFloat = .zero
+    ) {
+        self.init(
+            sectionInset: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset),
+            minimumLineSpacing: minimumLineSpacing,
+            minimumInteritemSpacing: minimumInteritemSpacing
+        )
     }
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupStyle() {
-        backgroundColor = .darkGray
-        indicatorStyle = .black
-        contentInsetAdjustmentBehavior = .never
-        scrollIndicatorInsets = .zero
-        allowsMultipleSelection = true
-    }
-    
-    func setupDelegates() {
-        self.delegate = self
     }
     
 }
