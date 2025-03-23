@@ -23,18 +23,18 @@ private lazy var shrinkedBottomConstraint = upperView.bottomAnchor.constraint(eq
         didSet { setAppearance() }
     }
     
-//    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
-//    open override var contentView: UIView {
-//        return self.upperView
-//    }
+    @available(*, deprecated, message: "contentView에 직접 접근하지 마세요. 대신 upperView 또는 lowerView를 사용하세요.")
+    open override var contentView: UIView {
+        return self.upperView
+    }
     
     //MARK: - UI Properties
     
     /// view displaying on cell when folded
-    let upperView = UIView()
+    public let upperView = UIView()
     
     /// additional view displaying on cell when expanded
-    let lowerView = UIView()
+    public let lowerView = UIView()
     
     //MARK: - Life Cycle
     
