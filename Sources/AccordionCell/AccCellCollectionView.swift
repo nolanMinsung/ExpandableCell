@@ -13,7 +13,7 @@ open class AccCellCollectionView: UICollectionView {
     
     private let cellSelectionOperationQueue = OperationQueue()
     
-    required public init() {
+    init() {
 //        let collectionViewHorizontalInset: CGFloat = 24
         let collectionViewHorizontalInset: CGFloat = 0
         let collectionViewVerticalInset: CGFloat = 20
