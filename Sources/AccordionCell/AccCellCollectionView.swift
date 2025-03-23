@@ -29,7 +29,7 @@ open class AccCellCollectionView: UICollectionView {
         )
         flowLayout.minimumLineSpacing = 16
         flowLayout.minimumInteritemSpacing = 100
-        //            flowLayout.estimatedItemSize = CGSize(width: itemWidth, height: 125)
+//        flowLayout.estimatedItemSize = CGSize(width: itemWidth, height: 125)
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
@@ -56,7 +56,7 @@ open class AccCellCollectionView: UICollectionView {
     
 }
 
-extension CollectionView: UICollectionViewDelegate {
+extension AccCellCollectionView: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
