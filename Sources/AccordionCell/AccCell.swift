@@ -119,7 +119,7 @@ extension AccCell {
 
 extension AccCell: WidthAdoptable {
     
-    func adoptWidth(_ width: CGFloat) {
+    public func adoptWidth(_ width: CGFloat) {
         self.widthConstraint.constant = width
         setAppearance()
     }
