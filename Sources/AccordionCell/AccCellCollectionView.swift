@@ -17,7 +17,7 @@ open class AccCellCollectionView: UICollectionView {
     var minimumLineSpacing: CGFloat = 0
     var minimumInteritemSpacing: CGFloat = 0
     
-    init(
+    public init(
         sectionInset: UIEdgeInsets = .zero,
         minimumLineSpacing: CGFloat = .zero,
         minimumInteritemSpacing: CGFloat = .zero
@@ -34,7 +34,7 @@ open class AccCellCollectionView: UICollectionView {
         self.delegate = self
     }
     
-    convenience init(
+    public convenience init(
         verticalInset: CGFloat,
         horizontalInset: CGFloat,
         minimumLineSpacing: CGFloat = .zero,
@@ -50,7 +50,7 @@ open class AccCellCollectionView: UICollectionView {
         )
     }
     
-    convenience init(
+    public convenience init(
         inset: CGFloat,
         minimumLineSpacing: CGFloat = .zero,
         minimumInteritemSpacing: CGFloat = .zero
