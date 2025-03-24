@@ -43,7 +43,7 @@ class ViewController: UIViewController {
 ### 2. Define a custom cell by inheriting FoldableCell
 - Instead of using `contentView` directly, use `mainContentView` and `detailContentView`.
   
-  You can set background color of `contentView` when you want to set whole background of cell's background color.
+  You can set background color of `contentView` when you want to set whole background of cell.
 - Add content that should remain visible when the cell is folded as a subview of `mainContentView` in FoldableCell.
 - Add content that should only be visible when expanded and hidden when folded as a subview of `detailContentView`.
 - The width of `FoldableCell` is automatically set based on the width of FoldableCellCollectionView and the specified insets.
