@@ -92,7 +92,7 @@ class ViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 extension ViewController: UICollectionViewDataSource {
-    // set dataSource methods...
+    // implement dataSource methods...
 }
 ```
 ---
