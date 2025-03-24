@@ -3,13 +3,13 @@
 
 import UIKit
 
-/// `FoldableCell` is an abstract subclass of `UICollectionViewCell` that provides
-/// folding and expanding functionality.
+/// `ExpandableCell` is an abstract subclass of `UICollectionViewCell` that provides
+/// expanding functionality.
 ///
 /// This class is a base class.
 /// - Note: must be registered
-///   with a subclass of `FoldableCellCollectionView` for proper functionality.
-open class FoldableCell: UICollectionViewCell {
+///   with a subclass of `ExpandableCellCollectionView` for proper functionality.
+open class ExpandableCell: UICollectionViewCell {
     
     //MARK: - Private Properties
     
@@ -61,7 +61,7 @@ open class FoldableCell: UICollectionViewCell {
     
 }
 
-private extension FoldableCell {
+private extension ExpandableCell {
     
     //MARK: - Private Func
     
@@ -111,7 +111,7 @@ private extension FoldableCell {
     
 }
 
-public extension FoldableCell {
+public extension ExpandableCell {
     
     
     /// Set and update cell's width.

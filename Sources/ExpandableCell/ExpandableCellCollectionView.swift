@@ -1,6 +1,6 @@
 //
-//  FoldableCellCollectionView.swift
-//  FoldableCell
+//  ExpandableCellCollectionView.swift
+//  ExpandableCell
 //
 //  Created by 김민성 on 3/23/25.
 //
@@ -8,17 +8,17 @@
 import os
 import UIKit
 
-/// A subclass of UICollectionView that is designed to work with `FoldableCell` types.
+/// A subclass of UICollectionView that is designed to work with `ExpandableCell` types.
 ///
-/// This collection view requires cells that inherit from `FoldableCell`. It provides built-in support
-/// for cells that fold and unfold with animation, and allows customization of the animation speed.
+/// This collection view requires cells that inherit from `ExpandableCell`. It provides built-in support
+/// for cells that expand and fold with animation, and allows customization of the animation speed.
 ///
-/// Additionally, `FoldableCellCollectionView` provides simple layout configurations such as setting
+/// Additionally, `ExpandableCellCollectionView` provides simple layout configurations such as setting
 /// insets and other layout properties for the collection view.
 ///
-/// - Note: The cells registered to this collection view should be subclass of `FoldableCell`.
+/// - Note: The cells registered to this collection view should be subclass of `ExpandableCell`.
 ///         Any other cell types will not work as expected.
-public class FoldableCellCollectionView: UICollectionView {
+public class ExpandableCellCollectionView: UICollectionView {
     
     public enum AnimationSpeed: CGFloat {
         
@@ -44,7 +44,7 @@ public class FoldableCellCollectionView: UICollectionView {
     
     // MARK: - Private Properties
     
-    private let logger = OSLog(subsystem: "com.minsung.foldablecell", category: "Validation")
+    private let logger = OSLog(subsystem: "com.minsung.expandablecell", category: "Validation")
     private let cellSelectionOperationQueue = OperationQueue()
     private var sectionInset: UIEdgeInsets = .zero
     private var minimumLineSpacing: CGFloat = 0
@@ -102,10 +102,10 @@ public class FoldableCellCollectionView: UICollectionView {
 }
 
 // MARK: - UICollectionViewDelegate
-extension FoldableCellCollectionView: UICollectionViewDelegate {
+extension ExpandableCellCollectionView: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let accCell  = cell as? FoldableCell else {
+        guard let accCell  = cell as? ExpandableCell else {
             assertionFailure("A cell registered in AccCellCollectionView must inherit from AccCell.")
             os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
             return
@@ -117,7 +117,7 @@ extension FoldableCellCollectionView: UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard collectionView.cellForItem(at: indexPath) is FoldableCell else {
+        guard collectionView.cellForItem(at: indexPath) is ExpandableCell else {
             assertionFailure("A cell registered in AccCellCollectionView must inherit from AccCell.")
             os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
             return true
