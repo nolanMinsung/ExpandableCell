@@ -98,4 +98,4 @@ extension ViewController: UICollectionViewDataSource {
 ---
 ## 📜 License
 
-FoldableCell is available under the MIT License.
+FoldableCell is available under the  [MIT License](https://github.com/nolanMinsung/FoldableCell/blob/main/LICENSE).
