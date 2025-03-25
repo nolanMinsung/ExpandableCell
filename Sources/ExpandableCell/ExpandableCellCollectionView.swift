@@ -129,7 +129,7 @@ extension ExpandableCellCollectionView: UICollectionViewDelegate {
             os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
             return
         }
-        print(#function)
+        
         // Setting cell's width.
         let horizontalSectionInset: CGFloat = sectionInset.left + sectionInset.right
         accCell.updateWidth(collectionView.bounds.width - horizontalSectionInset)

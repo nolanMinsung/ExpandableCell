@@ -45,7 +45,7 @@ open class ExpandableCellCollectionViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension ExpandableCellCollectionViewController: UICollectionViewDataSource {
+extension ExpandableCellCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.collectionView(collectionView, numberOfItemsInSection: section)
@@ -54,6 +54,5 @@ extension ExpandableCellCollectionViewController: UICollectionViewDataSource {
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.collectionView(collectionView, cellForItemAt: indexPath)
     }
-    
     
 }
