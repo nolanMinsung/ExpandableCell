@@ -108,6 +108,12 @@ public class ExpandableCellCollectionView: UICollectionView {
     }
 
     @objc func UIContentSizeCategoryDidChange(_ notification: Notification) {
+        
+        // if system font size changes, collection view deselects all cells to avoid unexpected layout bug.
+        if let selectedIndexPaths = indexPathsForSelectedItems {
+            selectedIndexPaths.forEach { deselectItem(at: $0, animated: false) }
+        }
+        
         self.collectionViewLayout.invalidateLayout()
         self.performBatchUpdates(nil)
     }
