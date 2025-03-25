@@ -9,25 +9,36 @@ import UIKit
 
 open class ExpandableCellCollectionViewController: UIViewController {
     
-    var sectionInset: UIEdgeInsets = .zero
+    var sectionInset: UIEdgeInsets
+    var minimumLineSpacing: CGFloat
     
-    let collectionView = ExpandableCellCollectionView()
+    private lazy var exCellCollectionView = ExpandableCellCollectionView(
+        sectionInset: sectionInset,
+        minimumLineSpacing: minimumLineSpacing
+    )
+    
+    public var collectionView: ExpandableCellCollectionView {
+        view as? ExpandableCellCollectionView ?? ExpandableCellCollectionView()
+    }
+    
+    public init(sectionInset: UIEdgeInsets = .zero, minimumLineSpacing: CGFloat = .zero) {
+        self.sectionInset = sectionInset
+        self.minimumLineSpacing = minimumLineSpacing
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override open func loadView() {
-        view = collectionView
+        view = exCellCollectionView
     }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.dataSource = self
-    }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // MARK: 여기서 이 메서드 사용해야 처음 레이아웃 그려질 때 셀이 의도한 크기대로 그려짐
-        collectionView.performBatchUpdates(nil)
+        exCellCollectionView.dataSource = self
     }
     
 }
@@ -36,11 +47,11 @@ open class ExpandableCellCollectionViewController: UIViewController {
 
 extension ExpandableCellCollectionViewController: UICollectionViewDataSource {
     
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.collectionView(collectionView, numberOfItemsInSection: section)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.collectionView(collectionView, cellForItemAt: indexPath)
     }
     
