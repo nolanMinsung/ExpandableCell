@@ -42,6 +42,14 @@ public class ExpandableCellCollectionView: UICollectionView {
     /// The default value is `.medium`(0.5 seconds).
     public var animationSpeed: AnimationSpeed = .medium
     
+    public override var allowsMultipleSelection: Bool {
+        didSet {
+            if !allowsMultipleSelection {
+                deselectAll()
+            }
+        }
+    }
+    
     // MARK: - Private Properties
     
     private let logger = OSLog(subsystem: "com.minsung.expandablecell", category: "Validation")
@@ -106,16 +114,19 @@ public class ExpandableCellCollectionView: UICollectionView {
             object: nil
         )
     }
-
-    @objc func UIContentSizeCategoryDidChange(_ notification: Notification) {
-        
-        // if system font size changes, collection view deselects all cells to avoid unexpected layout bug.
-        if let selectedIndexPaths = indexPathsForSelectedItems {
-            selectedIndexPaths.forEach { deselectItem(at: $0, animated: false) }
+    
+    private func deselectAll(_ completion: ((Bool) -> Void)? = nil) {
+        guard let selectedIndexPaths = indexPathsForSelectedItems else { return }
+        selectedIndexPaths.forEach { deselectItem(at: $0, animated: false) }
+        performBatchUpdates(nil) { isCompleted in
+            completion?(isCompleted)
         }
-        
+    }
+    
+    @objc func UIContentSizeCategoryDidChange(_ notification: Notification) {
+        // if system font size changes, collection view deselects all cells to avoid unexpected layout bug.
+        deselectAll()
         self.collectionViewLayout.invalidateLayout()
-        self.performBatchUpdates(nil)
     }
     
 }
