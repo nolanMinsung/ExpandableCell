@@ -48,7 +48,6 @@ public class ExpandableCellCollectionView: UICollectionView {
     private let cellSelectionOperationQueue = OperationQueue()
     private var sectionInset: UIEdgeInsets = .zero
     private var minimumLineSpacing: CGFloat = 0
-    private var minimumInteritemSpacing: CGFloat = 0
     
     // MARK: -
     
@@ -67,13 +66,14 @@ public class ExpandableCellCollectionView: UICollectionView {
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
         self.delegate = self
+        
+        setupNotifications()
     }
     
     public convenience init(
         verticalInset: CGFloat,
         horizontalInset: CGFloat,
-        minimumLineSpacing: CGFloat = .zero,
-        minimumInteritemSpacing: CGFloat = .zero
+        minimumLineSpacing: CGFloat = .zero
     ) {
         self.init(
             sectionInset: UIEdgeInsets(top: verticalInset,
@@ -86,8 +86,7 @@ public class ExpandableCellCollectionView: UICollectionView {
     
     public convenience init(
         inset: CGFloat,
-        minimumLineSpacing: CGFloat = .zero,
-        minimumInteritemSpacing: CGFloat = .zero
+        minimumLineSpacing: CGFloat = .zero
     ) {
         self.init(
             sectionInset: UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset),
@@ -97,6 +96,20 @@ public class ExpandableCellCollectionView: UICollectionView {
     
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(UIContentSizeCategoryDidChange(_:)),
+            name: UIContentSizeCategory.didChangeNotification,
+            object: nil
+        )
+    }
+
+    @objc func UIContentSizeCategoryDidChange(_ notification: Notification) {
+        self.collectionViewLayout.invalidateLayout()
+        self.performBatchUpdates(nil)
     }
     
 }
@@ -110,7 +123,7 @@ extension ExpandableCellCollectionView: UICollectionViewDelegate {
             os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
             return
         }
-        
+        print(#function)
         // Setting cell's width.
         let horizontalSectionInset: CGFloat = sectionInset.left + sectionInset.right
         accCell.updateWidth(collectionView.bounds.width - horizontalSectionInset)

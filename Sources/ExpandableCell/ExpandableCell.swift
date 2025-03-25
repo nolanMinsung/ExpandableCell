@@ -77,7 +77,7 @@ private extension ExpandableCell {
     }
     
     private func setupLayout() {
-        widthConstraint.priority = .defaultHigh
+        widthConstraint.priority = .init(999)
         widthConstraint.isActive = true
         
         mainContentView.translatesAutoresizingMaskIntoConstraints = false
