@@ -1,7 +1,7 @@
 import XCTest
-@testable import FoldableCell
+@testable import ExpandableCell
 
-final class FoldableCellTests: XCTestCase {
+final class ExpandableCellTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
