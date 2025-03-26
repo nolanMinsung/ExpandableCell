@@ -45,14 +45,36 @@ open class ExpandableCellCollectionViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension ExpandableCellCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ExpandableCellCollectionViewController: UICollectionViewDataSource {
     
+    @available(iOS 6.0, *)
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.collectionView(collectionView, numberOfItemsInSection: section)
     }
-    
+
+    @available(iOS 8.0, *)
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+
+    @available(iOS 6.0, *)
+    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+        self.numberOfSections(in: collectionView)
+    }
+
+    @available(iOS 8.0, *)
+    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        self.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+    }
+
+    @available(iOS 9.0, *)
+    open func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        self.collectionView(collectionView, canMoveItemAt: indexPath)
+    }
+
+    @available(iOS 9.0, *)
+    open func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        self.collectionView(collectionView, moveItemAt: sourceIndexPath, to: destinationIndexPath)
     }
     
 }
