@@ -20,7 +20,7 @@ A lightweight and smooth accordion-style collection view cell library for iOS.
 
 ---
 
-## 🚀 Usage
+## 🚀 How to Use
 
 ### 1. Define a custom cell by inheriting `ExpandableCell`
 - Instead of using `contentView` directly, use `mainContentView` and `detailContentView` when configuring view hierarchy.
@@ -131,6 +131,24 @@ class ViewController: UIViewController {
 }
 ```
 ---
+
+## 🔗 Example Repository
+
+The following repository is an example that demonstrates how to use this library:
+<p align="left">
+  <a href="[https://github.com/your-repo-link](https://github.com/nolanMinsung/ExpandableCellExampleProject)">
+    <img src="https://img.shields.io/badge/GitHub-ExpandableCell%20Example-blue?style=for-the-badge&logo=github" alt="GitHub Repo">
+  </a>
+</p>
+
+[🔗 Example Repository](https://github.com/nolanMinsung/ExpandableCellExampleProject)
+
+
+[![Repo](https://gh-card.dev/repos/your-username/your-repo.svg)]([https://github.com/your-username/your-repo](https://github.com/nolanMinsung/ExpandableCellExampleProject))
+
+
+---
+
 ## 📜 License
 
 ExpandableCell is available under the  [MIT License](https://github.com/nolanMinsung/ExpandableCell/blob/main/LICENSE).
