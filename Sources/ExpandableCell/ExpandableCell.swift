@@ -20,7 +20,7 @@ open class ExpandableCell: UICollectionViewCell {
     private lazy var expandedBottomConstraint = detailContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     
     open override var isSelected: Bool {
-        didSet { setAppearance() }
+        didSet { updateExpandingState() }
     }
     
     //MARK: - UI Properties (Private)
@@ -138,7 +138,7 @@ private extension ExpandableCell {
         shrinkedBottomConstraint.isActive = !isSelected
     }
     
-    private func setAppearance() {
+    private func updateExpandingState() {
         expandedBottomConstraint.isActive = isSelected
         shrinkedBottomConstraint.isActive = !isSelected
         if isSelected {
@@ -158,7 +158,7 @@ public extension ExpandableCell {
     /// - Parameter width: new width to be updated.
     internal func updateWidth(_ width: CGFloat) {
         self.widthConstraint.constant = width
-        setAppearance()
+        updateExpandingState()
     }
     
 }
