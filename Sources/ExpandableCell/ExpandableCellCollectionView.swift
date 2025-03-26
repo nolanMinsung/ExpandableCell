@@ -152,6 +152,15 @@ extension ExpandableCellCollectionView: UICollectionViewDelegate {
             os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
             return true
         }
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? ExpandableCell {
+            if !cell.isSelected {
+                cell.applyExpansionState()
+            } else {
+                cell.applyCollapsingState()
+            }
+        }
+        
         let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
         animator.addAnimations {
             if collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false {
@@ -172,6 +181,11 @@ extension ExpandableCellCollectionView: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         guard collectionView.allowsMultipleSelection else { return false }
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? ExpandableCell {
+            cell.applyCollapsingState()
+        }
+        
         let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
         animator.addAnimations {
             collectionView.deselectItem(at: indexPath, animated: false)

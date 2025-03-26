@@ -55,9 +55,45 @@ open class ExpandableCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func prepareForReuse() {
-        super.prepareForReuse()
-    }
+    /// Called in the animation block for cell expansion.
+    ///
+    /// This method is executed within the animation block when the cell expands.
+    /// Override this method in a subclass to define custom expand animations.
+    ///
+    /// Calling `super` is not necessary.
+    ///
+    /// - Note: Since this method runs inside an animation block, any animatable changes made here will be animated.
+    open func animateExpansion() { }
+    
+    /// Called in the animation block for cell collapsing.
+    ///
+    /// This method is executed within the animation block when the cell collapses.
+    /// Override this method in a subclass to define custom collapse animations.
+    ///
+    /// Calling `super` is not necessary.
+    ///
+    /// - Note: Since this method runs inside an animation block, any animatable changes made here will be animated.
+    open func animateCollapse() { }
+    
+    /// Called when cell expanding animation is about to start.
+    ///
+    /// Override this method in a subclass to immediately apply the expanded state without triggering any animations.
+    /// It allows configuring the UI elements to match the expanded appearance.
+    ///
+    /// Calling `super` is not necessary.
+    ///
+    /// - Note: This method does not perform the expansion itself. It only updates the UI accordingly.
+    open func applyExpansionState() { }
+    
+    /// Called when cell collapsing animation is about to start.
+    ///
+    /// Override this method in a subclass to immediately apply the collapsed state without triggering any animations.
+    /// It allows configuring the UI elements to match the collapsed appearance.
+    ///
+    /// Calling `super` is not necessary.
+    ///
+    /// - Note: This method does not perform the collapse itself. It only updates the UI accordingly.
+    open func applyCollapsingState() { }
     
 }
 
@@ -105,6 +141,11 @@ private extension ExpandableCell {
     private func setAppearance() {
         expandedBottomConstraint.isActive = isSelected
         shrinkedBottomConstraint.isActive = !isSelected
+        if isSelected {
+            animateExpansion()
+        } else {
+            animateCollapse()
+        }
         contentView.updateConstraints()
         contentView.layoutIfNeeded()
     }
@@ -112,7 +153,6 @@ private extension ExpandableCell {
 }
 
 public extension ExpandableCell {
-    
     
     /// Set and update cell's width.
     /// - Parameter width: new width to be updated.
