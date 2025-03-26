@@ -16,8 +16,7 @@ A lightweight and smooth accordion-style collection view cell library for iOS.
   Simply inherit `ExpandableCell`, register it in `ExpandableCellCollectionViewController`, and set up your data source.
 
 ### Other Features  
-- Currently optimized for a single-section layout with multiple cells in one row.  
-  Support for multiple sections is planned for future updates.  
+- Currently optimized for a layout with cells and sections in one row.  
 
 ---
 
@@ -27,7 +26,7 @@ A lightweight and smooth accordion-style collection view cell library for iOS.
 - Instead of using `contentView` directly, use `mainContentView` and `detailContentView` when configuring view hierarchy.
   - Add content that should remain visible when the cell is folded as a subview of `mainContentView` in ExpandableCell.
   - Add content that should only be visible when expanded and hidden when folded as a subview of `detailContentView`.
-- The width of `ExpandableCell` is automatically set based on the width of ExpandableCellCollectionView and the specified insets.
+- The width of `ExpandableCell` is automatically set based on the width of collection view and the specified insets.
 
 ``` swift
 import UIKit
@@ -58,7 +57,7 @@ class MyExpandableCell: ExpandableCell {
 ### 2. Define a custom view controller by inheriting `ExpandableCellCollectionViewController`
 - You can define simple layout properties like insets when initializing.
 - you can manage data source of collection view in the view controller.
-- `ExpandableCellCollectionViewController` adopts `UICollectionViewDataSource` protocol, so you can just implement `UICollectionViewDataSource`-related methods in this view controller. 
+- `ExpandableCellCollectionViewController` adopts `UICollectionViewDataSource` protocol, so if you want to implement `UICollectionViewDataSource`-related methods, you can just override the methods in this view controller(just like using UICollectionViewController).
 
 ```swift
 import UIKit
