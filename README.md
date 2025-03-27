@@ -15,6 +15,9 @@ A lightweight and smooth accordion-style collection view cell library for iOS.
 - **Easy to Use**  
   Simply inherit `ExpandableCell`, register it in `ExpandableCellCollectionViewController`, and set up your data source.
 
+### 📱 Portrait Mode Recommended
+- This library is optimized for apps that support only portrait mode. Unexpected layout issues may occur if the collection view is visible when the device rotates.
+
 ### Other Features  
 - Currently optimized for a layout with cells and sections in one row.  
 
