@@ -11,7 +11,7 @@ import os
 
 open class ExpandableCellCollectionViewController: UIViewController {
     
-    private let cellSelectionOperationQueue = OperationQueue()
+    private let cellSelectionSerialQueue = DispatchQueue(label: "cellSelection") // serial queue
     private let logger = OSLog(subsystem: "com.minsung.expandablecell", category: "Validation")
     private var sectionInset: UIEdgeInsets
     private var minimumLineSpacing: CGFloat
@@ -112,6 +112,7 @@ extension ExpandableCellCollectionViewController: UICollectionViewDataSource {
     
 }
 
+// MARK: - UICollectionViewDelegate
 extension ExpandableCellCollectionViewController: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -151,11 +152,9 @@ extension ExpandableCellCollectionViewController: UICollectionViewDelegate {
             collectionView.performBatchUpdates(nil)
         }
         
-        let animationOperation = BlockOperation {
+        cellSelectionSerialQueue.async {
             DispatchQueue.main.async { animator.startAnimation() }
         }
-        
-        cellSelectionOperationQueue.addOperation(animationOperation)
         return false
     }
     
@@ -172,11 +171,9 @@ extension ExpandableCellCollectionViewController: UICollectionViewDelegate {
             collectionView.performBatchUpdates(nil)
         }
         
-        let animationOperation = BlockOperation {
+        cellSelectionSerialQueue.async {
             DispatchQueue.main.async { animator.startAnimation() }
         }
-        
-        cellSelectionOperationQueue.addOperation(animationOperation)
         return false
     }
     
