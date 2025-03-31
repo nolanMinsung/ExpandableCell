@@ -1,8 +1,11 @@
-# ExpandableCell
-
 A lightweight and smooth accordion-style collection view cell library for iOS.
 
 📌 **Supports easy integration with `ExpandableCellCollectionViewController` and provides smooth animations.**  
+
+| | |
+|:-:|:-:|
+| <img src="https://github.com/user-attachments/assets/a7c35a9e-9794-4c33-9cae-976dff1e38a0" width=200> | <img src="https://github.com/user-attachments/assets/f05728c8-1b8e-4272-ad4f-f7223475e44f" width=200> |
+
 
 ![Demo GIF](path/to/demo.gif) <!-- 여기에 GIF 파일을 추가해주세요 -->
 
