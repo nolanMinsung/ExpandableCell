@@ -1,34 +1,31 @@
-A lightweight and smooth accordion-style collection view cell library for iOS.
+## A lightweight and smooth accordion-style collection view cell library for iOS.
 
 📌 **Supports easy integration with `ExpandableCellCollectionViewController` and provides smooth animations.**  
 
 | | |
 |:-:|:-:|
-| <img src="https://github.com/user-attachments/assets/a7c35a9e-9794-4c33-9cae-976dff1e38a0" width=200> | <img src="https://github.com/user-attachments/assets/f05728c8-1b8e-4272-ad4f-f7223475e44f" width=200> |
-
-
-![Demo GIF](path/to/demo.gif) <!-- 여기에 GIF 파일을 추가해주세요 -->
+| <img src="https://github.com/user-attachments/assets/a7c35a9e-9794-4c33-9cae-976dff1e38a0" width=200> | <img src="https://github.com/user-attachments/assets/888484d3-fdc5-40a5-9184-fee211bf952d" width=200> |
 
 ---
 
-## ✨ Features
+# ✨ Features
 
 - **Smooth Expanding Animation**  
   Cells smoothly transition between expanded and folded states.  
 - **Easy to Use**  
   Simply inherit `ExpandableCell`, register it in `ExpandableCellCollectionViewController`, and set up your data source.
 
-### 📱 Portrait Mode Recommended
+## 📱 Portrait Mode Recommended
 - This library is optimized for apps that support only portrait mode. Unexpected layout issues may occur if the collection view is visible when the device rotates.
 
-### Other Features  
+## Other Features  
 - Currently optimized for a layout with cells and sections in one row.  
 
 ---
 
-## 🚀 How to Use
+# 🚀 How to Use
 
-### 1. Define a custom cell by inheriting `ExpandableCell`
+## 1. Define a custom cell by inheriting `ExpandableCell`
 - Instead of using `contentView` directly, use `mainContentView` and `detailContentView` when configuring view hierarchy.
   - Add content that should remain visible when the cell is folded as a subview of `mainContentView` in ExpandableCell.
   - Add content that should only be visible when expanded and hidden when folded as a subview of `detailContentView`.
@@ -60,7 +57,7 @@ class MyExpandableCell: ExpandableCell {
 }
 ```
 
-### 2. Define a custom view controller by inheriting `ExpandableCellCollectionViewController`
+## 2. Define a custom view controller by inheriting `ExpandableCellCollectionViewController`
 - You can define simple layout properties like insets when initializing.
 - you can manage data source of collection view in the view controller.
 - `ExpandableCellCollectionViewController` adopts `UICollectionViewDataSource` protocol, so if you want to implement `UICollectionViewDataSource`-related methods, you can just override the methods in this view controller(just like using UICollectionViewController).
@@ -115,8 +112,29 @@ extension MyExpandableCellCollectionVC {
 }
 ```
 
+### 📌 CollectionView DataSource & Delegate Handling
 
-### 3. add custom view controller as a child view controller where you want to show at.
+The collectionView in `ExpandableCellCollectionViewController` is automatically assigned its dataSource and delegate to itself (`ExpandableCellCollectionViewController`).
+👉 Do not explicitly assign different values to `collectionView.dataSource` or `collectionView.delegate`.
+
+✅ How to Implement DataSource & Delegate
+	•	`UICollectionViewDataSource` methods should be implemented by overriding the parent class methods.
+	•	`UICollectionViewDelegate` methods should be implemented without overriding.
+
+---
+
+### ⚠️ Important Notes
+
+🚨 To handle the expand/collapse functionality when tapping a cell, the following methods are already implemented and cannot be overridden:
+- `collectionView(_:willDisplay:forItemAt:)`
+- `collectionView(_:shouldSelectItemAt:)`
+- `collectionView(_:shouldDeselectItemAt:)`
+
+🚨 When a cell is expanded or collapsed by tapping, the following methods will not be called:
+- `collectionView(_:didSelectItemAt:)`
+- `collectionView(_:didDeselectItemAt:)`
+
+## 3. add custom view controller as a child view controller where you want to show at.
 ``` swift
 import UIKit
 import ExpandableCell
@@ -138,7 +156,7 @@ class ViewController: UIViewController {
 ```
 ---
 
-## 🔗 Example Repository
+# 🔗 Example Repository
 
 The following repository is an example that demonstrates how to use this library:
 <p align="left">
@@ -149,12 +167,8 @@ The following repository is an example that demonstrates how to use this library
 
 [🔗 Example Repository](https://github.com/nolanMinsung/ExpandableCellExampleProject)
 
-
-[![Repo](https://gh-card.dev/repos/your-username/your-repo.svg)]([https://github.com/your-username/your-repo](https://github.com/nolanMinsung/ExpandableCellExampleProject))
-
-
 ---
 
-## 📜 License
+# 📜 License
 
 ExpandableCell is available under the  [MIT License](https://github.com/nolanMinsung/ExpandableCell/blob/main/LICENSE).
