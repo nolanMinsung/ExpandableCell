@@ -39,11 +39,16 @@ open class ExpandableCellCollectionViewController: UIViewController {
     
     public let collectionView: ExpandableCellCollectionView
     
-    public init(sectionInset: UIEdgeInsets = .zero, minimumLineSpacing: CGFloat = .zero) {
-        self.sectionInset = sectionInset
-        self.minimumLineSpacing = minimumLineSpacing
-        self.collectionView = ExpandableCellCollectionView(sectionInset: sectionInset, minimumLineSpacing: minimumLineSpacing)
+    public init(collectionView: ExpandableCellCollectionView) {
+        self.collectionView = collectionView
+        self.sectionInset = collectionView.sectionInset
+        self.minimumLineSpacing = collectionView.minimumLineSpacing
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    public convenience init(sectionInset: UIEdgeInsets = .zero, minimumLineSpacing: CGFloat = .zero) {
+        let collectionView = ExpandableCellCollectionView(sectionInset: sectionInset, minimumLineSpacing: minimumLineSpacing)
+        self.init(collectionView: collectionView)
     }
     
     public convenience init(verticalInset: CGFloat, horizontalInset: CGFloat, minimumLineSpacing: CGFloat = .zero) {

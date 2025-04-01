@@ -18,7 +18,7 @@ import UIKit
 ///
 /// - Note: The cells registered to this collection view should be subclass of `ExpandableCell`.
 ///         Any other cell types will not work as expected.
-public class ExpandableCellCollectionView: UICollectionView {
+open class ExpandableCellCollectionView: UICollectionView {
     
     //MARK: - Public Properties
     
@@ -32,8 +32,8 @@ public class ExpandableCellCollectionView: UICollectionView {
     
     // MARK: - Private Properties
     
-    private var sectionInset: UIEdgeInsets = .zero
-    private var minimumLineSpacing: CGFloat = 0
+    internal var sectionInset: UIEdgeInsets = .zero
+    internal var minimumLineSpacing: CGFloat = 0
     
     // MARK: -
     
