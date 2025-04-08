@@ -59,6 +59,20 @@ open class ExpandableCellCollectionView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func register<T: ExpandableCell>(_ cellClass: T.Type, forCellWithReuseIdentifier identifier: String) {
+        super.register(cellClass, forCellWithReuseIdentifier: identifier)
+    }
+    
+    @available(*, unavailable, message: "Use register(_:forCellWithReuseIdentifier:) with ExpandableCell only.")
+    override public func register(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
+        super.register(cellClass, forCellWithReuseIdentifier: identifier)
+    }
+    
+    @available(*, unavailable, message: "Use register(_:forCellWithReuseIdentifier:) with ExpandableCell only.")
+    override public func register(_ nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+        assertionFailure("Use `register(_:forCellWithReuseIdentifier:)` method to register cell for ExpandableCellCollectionView")
+    }
+    
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
             self,

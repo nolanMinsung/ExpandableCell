@@ -87,7 +87,8 @@ extension ExpandableCellCollectionViewController: UICollectionViewDataSource {
     
     @available(iOS 6.0, *)
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.collectionView(collectionView, numberOfItemsInSection: section)
+        assert(collectionView is ExpandableCellCollectionView, "collection view must inheritted from ExpandableCellCollectionView")
+        return self.collectionView(collectionView, numberOfItemsInSection: section)
     }
 
     @available(iOS 8.0, *)
@@ -122,8 +123,8 @@ extension ExpandableCellCollectionViewController: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let accCell  = cell as? ExpandableCell else {
-            assertionFailure("A cell registered in AccCellCollectionView must inherit from AccCell.")
-            os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
+            assertionFailure("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.")
+            os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
             return
         }
         
@@ -134,8 +135,8 @@ extension ExpandableCellCollectionViewController: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard collectionView.cellForItem(at: indexPath) is ExpandableCell else {
-            assertionFailure("A cell registered in AccCellCollectionView must inherit from AccCell.")
-            os_log("A cell registered in AccCellCollectionView must inherit from AccCell.", type: .error)
+            assertionFailure("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.")
+            os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
             return true
         }
         
