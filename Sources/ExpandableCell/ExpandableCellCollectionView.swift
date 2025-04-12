@@ -72,6 +72,22 @@ open class ExpandableCellCollectionView: UICollectionView {
         setupDelegates()
     }
     
+    public init(sectionInsetInVertical vertical: CGFloat, horizontal: CGFloat, minimumLineSpacing: CGFloat) {
+        self.sectionInset = .init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
+        self.minimumLineSpacing = minimumLineSpacing
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = sectionInset
+        flowLayout.minimumLineSpacing = minimumLineSpacing
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        
+        super.init(frame: .zero, collectionViewLayout: flowLayout)
+        
+        setupNotifications()
+        setupDelegates()
+    }
+    
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
