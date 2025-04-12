@@ -69,6 +69,24 @@ class MyExpandableCell: ExpandableCell {
   - `collectionView(_:shouldSelectItemAt:)`
   - `collectionView(_:shouldDeselectItemAt:)`
   - `collectionView(_:willDisplay:forItemAt:)`
+  
+  Instead, you can use following methods:
+  - `collectionView(_:shouldSelectItemAt:)`
+    
+    ``` swift
+    func collectionView(_ collectionView: ExpandableCellCollectionView, willDisplay cell: ExpandableCell, forItemAt indexPath: IndexPath)
+    ```
+
+  - `collectionView(_:shouldDeselectItemAt:)`
+
+    ``` swift
+    func collectionView(_ collectionView: ExpandableCellCollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool
+    ```
+  - `collectionView(_:willDisplay:forItemAt:)`
+
+    ``` swift
+    func collectionView(_ collectionView: ExpandableCellCollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool
+    ```
 ---
 
 # 🔗 Example Repository
