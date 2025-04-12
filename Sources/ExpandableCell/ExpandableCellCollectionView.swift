@@ -146,19 +146,48 @@ open class ExpandableCellCollectionView: UICollectionView {
     
 }
 
+// overriding UICollectionView's Instance methods/properties
+extension ExpandableCellCollectionView {
+    
+    open override func cellForItem(at indexPath: IndexPath) -> ExpandableCell? {
+        return (super.cellForItem(at: indexPath) as? ExpandableCell) ?? nil
+    }
+    
+    public var visibleExpandableCells: [ExpandableCell] {
+        return super.visibleCells.map({ $0 as! ExpandableCell })
+    }
+    
+}
+
+extension ExpandableCellCollectionView {
+    
+    @objc open func collectionView(_ collectionView: ExpandableCellCollectionView, willDisplay cell: ExpandableCell, forItemAt indexPath: IndexPath) { }
+    
+    @objc open func collectionView(_ collectionView: ExpandableCellCollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    @objc open func collectionView(_ collectionView: ExpandableCellCollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+}
+
 // MARK: - UICollectionViewDelegate
 extension ExpandableCellCollectionView: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let accCell  = cell as? ExpandableCell else {
+        guard let expandableCell  = cell as? ExpandableCell else {
             assertionFailure("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.")
             os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
             return
         }
+        guard let collectionView = collectionView as? ExpandableCellCollectionView else { return }
         
         // Setting cell's width.
         let horizontalSectionInset: CGFloat = sectionInset.left + sectionInset.right
-        accCell.updateWidth(collectionView.bounds.width - horizontalSectionInset)
+        expandableCell.updateWidth(collectionView.bounds.width - horizontalSectionInset)
+        self.collectionView(collectionView, willDisplay: expandableCell, forItemAt: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -167,49 +196,58 @@ extension ExpandableCellCollectionView: UICollectionViewDelegate {
             os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
             return true
         }
-        
-        if let cell = collectionView.cellForItem(at: indexPath) as? ExpandableCell {
-            if !cell.isSelected {
-                cell.applyExpansionState()
-            } else {
-                cell.applyCollapsingState()
+        guard let collectionView = collectionView as? ExpandableCellCollectionView else { return false }
+            
+        if let cell = collectionView.cellForItem(at: indexPath) {
+                if !cell.isSelected {
+                    cell.applyExpansionState()
+                } else {
+                    cell.applyCollapsingState()
+                }
             }
-        }
-        
-        let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
-        animator.addAnimations { [weak self] in
-            if collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false {
-                collectionView.deselectItem(at: indexPath, animated: false)
-                self?.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
-            } else {
-                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-                self?.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+            
+            let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
+            animator.addAnimations { [weak self] in
+                guard let self else { return }
+                if collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false {
+                    if self.collectionView(collectionView, shouldDeselectItemAt: indexPath) {
+                        collectionView.deselectItem(at: indexPath, animated: false)
+                        self.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
+                    }
+                } else {
+                    if self.collectionView(collectionView, shouldSelectItemAt: indexPath) {
+                        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+                        self.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
+                    }
+                }
+                collectionView.performBatchUpdates(nil)
             }
-            collectionView.performBatchUpdates(nil)
-        }
-        
-        cellSelectionSerialQueue.async {
-            DispatchQueue.main.async { animator.startAnimation() }
-        }
+            
+            cellSelectionSerialQueue.async {
+                DispatchQueue.main.async { animator.startAnimation() }
+            }
         return false
     }
     
     public func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         guard collectionView.allowsMultipleSelection else { return false }
-        
-        if let cell = collectionView.cellForItem(at: indexPath) as? ExpandableCell {
-            cell.applyCollapsingState()
-        }
-        
-        let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
-        animator.addAnimations { [weak self] in
-            collectionView.deselectItem(at: indexPath, animated: false)
-            self?.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
-            collectionView.performBatchUpdates(nil)
-        }
-        
-        cellSelectionSerialQueue.async {
-            DispatchQueue.main.async { animator.startAnimation() }
+        guard let collectionView = collectionView as? ExpandableCellCollectionView else { return false }
+        if self.collectionView(collectionView, shouldDeselectItemAt: indexPath) {
+            
+            if let cell = collectionView.cellForItem(at: indexPath) {
+                cell.applyCollapsingState()
+            }
+            
+            let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
+            animator.addAnimations { [weak self] in
+                collectionView.deselectItem(at: indexPath, animated: false)
+                self?.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
+                collectionView.performBatchUpdates(nil)
+            }
+            
+            cellSelectionSerialQueue.async {
+                DispatchQueue.main.async { animator.startAnimation() }
+            }
         }
         return false
     }
