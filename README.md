@@ -65,6 +65,10 @@ class MyExpandableCell: ExpandableCell {
   Do not manually assign a different `delegate` to this view.
   If you need to implement additional behavior related to `UICollectionViewDelegate` or `UIScrollViewDelegate`,
   subclass `ExpandableCellCollectionView` and implement the appropriate delegate methods there.
+- To enable the expand/collapse functionality, the following delegate methods are pre-implemented and cannot be overridden or implemented separately:
+  - `collectionView(_:shouldSelectItemAt:)`
+  - `collectionView(_:shouldDeselectItemAt:)`
+  - `collectionView(_:willDisplay:forItemAt:)`
 ---
 
 # 🔗 Example Repository
