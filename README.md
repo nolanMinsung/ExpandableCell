@@ -8,6 +8,17 @@
 
 ---
 
+# ⬇️ Installation
+
+This library supports installation via [Swift Package Manager](https://swift.org/package-manager/) only:
+
+1. Open your Xcode project.
+2. Go to **File > Add Package Dependencies...**
+3. Enter the package URL: `https://github.com/nolanMinsung/ExpandableCell.git`
+4. Select the version and add it to your target.
+
+--- 
+
 # ✨ Features
 
 - **Smooth Expanding Animation**  
