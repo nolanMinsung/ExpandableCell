@@ -16,6 +16,15 @@ open class ExpandableCell: UICollectionViewCell {
     private let collectionViewHorizontalSectionInset: CGFloat = 24
     private lazy var widthConstraint = contentView.widthAnchor.constraint(equalToConstant: 0)
     
+    private lazy var mainContentViewLeadingConstraint =
+    mainContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+    private lazy var mainContentViewTrailingConstraint =
+    mainContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+    private lazy var detailContentViewLeadingConstraint =
+    detailContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+    private lazy var detailContentViewTrailingConstraint =
+    detailContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+    
     private lazy var shrinkedBottomConstraint = mainContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     private lazy var expandedBottomConstraint = detailContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
     
@@ -119,16 +128,20 @@ private extension ExpandableCell {
         mainContentView.translatesAutoresizingMaskIntoConstraints = false
         detailContentView.translatesAutoresizingMaskIntoConstraints = false
         
+        mainContentViewLeadingConstraint.priority = .init(999)
+        mainContentViewTrailingConstraint.priority = .init(999)
         NSLayoutConstraint.activate([
             mainContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            mainContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            mainContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            mainContentViewLeadingConstraint,
+            mainContentViewTrailingConstraint
         ])
         
+        detailContentViewLeadingConstraint.priority = .init(999)
+        detailContentViewTrailingConstraint.priority = .init(999)
         NSLayoutConstraint.activate([
             detailContentView.topAnchor.constraint(equalTo: mainContentView.bottomAnchor),
-            detailContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            detailContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            detailContentViewLeadingConstraint,
+            detailContentViewTrailingConstraint
         ])
         
         expandedBottomConstraint.priority = .defaultLow
