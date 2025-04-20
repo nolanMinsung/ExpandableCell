@@ -54,6 +54,7 @@ open class ExpandableCellCollectionView: UICollectionView {
     private let minimumLineSpacing: CGFloat
     
     public init(
+        contentInset: UIEdgeInsets = .zero,
         sectionInset: UIEdgeInsets = .zero,
         minimumLineSpacing: CGFloat = .zero
     ) {
@@ -67,6 +68,7 @@ open class ExpandableCellCollectionView: UICollectionView {
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
+        self.contentInset = contentInset
         
         setupNotifications()
         setupDelegates()
@@ -83,6 +85,23 @@ open class ExpandableCellCollectionView: UICollectionView {
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
+        
+        setupNotifications()
+        setupDelegates()
+    }
+    
+    public init(contentInsetInVertical vertical: CGFloat, horizontal: CGFloat, minimumLineSpacing: CGFloat) {
+        self.sectionInset = .zero
+        self.minimumLineSpacing = minimumLineSpacing
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = sectionInset
+        flowLayout.minimumLineSpacing = minimumLineSpacing
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        
+        super.init(frame: .zero, collectionViewLayout: flowLayout)
+        self.contentInset = .init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
         
         setupNotifications()
         setupDelegates()
@@ -185,8 +204,8 @@ extension ExpandableCellCollectionView: UICollectionViewDelegate {
         guard let collectionView = collectionView as? ExpandableCellCollectionView else { return }
         
         // Setting cell's width.
-        let horizontalSectionInset: CGFloat = sectionInset.left + sectionInset.right
-        expandableCell.updateWidth(collectionView.bounds.width - horizontalSectionInset)
+        let horizontalInset: CGFloat = (sectionInset.left + sectionInset.right) + (contentInset.left + contentInset.right)
+        expandableCell.updateWidth(collectionView.bounds.width - horizontalInset)
         self.collectionView(collectionView, willDisplay: expandableCell, forItemAt: indexPath)
     }
     
