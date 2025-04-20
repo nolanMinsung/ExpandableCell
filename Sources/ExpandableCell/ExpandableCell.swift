@@ -128,16 +128,16 @@ private extension ExpandableCell {
         mainContentView.translatesAutoresizingMaskIntoConstraints = false
         detailContentView.translatesAutoresizingMaskIntoConstraints = false
         
-        mainContentViewLeadingConstraint.priority = .init(999)
-        mainContentViewTrailingConstraint.priority = .init(999)
+        mainContentViewLeadingConstraint.priority = .required
+        mainContentViewTrailingConstraint.priority = .required
         NSLayoutConstraint.activate([
             mainContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainContentViewLeadingConstraint,
             mainContentViewTrailingConstraint
         ])
         
-        detailContentViewLeadingConstraint.priority = .init(999)
-        detailContentViewTrailingConstraint.priority = .init(999)
+        detailContentViewLeadingConstraint.priority = .required
+        detailContentViewTrailingConstraint.priority = .required
         NSLayoutConstraint.activate([
             detailContentView.topAnchor.constraint(equalTo: mainContentView.bottomAnchor),
             detailContentViewLeadingConstraint,
