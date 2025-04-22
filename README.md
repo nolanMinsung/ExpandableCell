@@ -38,8 +38,8 @@ This library supports installation via [Swift Package Manager](https://swift.org
 
 ## 1. Define a custom cell by inheriting `ExpandableCell`
 - Instead of using `contentView` directly, use `mainContentView` and `detailContentView` when configuring view hierarchy.
-  - Add content that should remain visible when the cell is folded as a subview of `mainContentView` in ExpandableCell.
-  - Add content that should only be visible when expanded and hidden when folded as a subview of `detailContentView`.
+  - Add content that should remain visible when the cell is folded as a subview of `mainContentView` in `ExpandableCell`.
+  - Add content that should only be visible when expanded and hidden when folded as a `subview` of `detailContentView`.
 - The width of `ExpandableCell` is automatically set based on the width of collection view and the specified insets.
 
 ``` swift
@@ -68,39 +68,20 @@ class MyExpandableCell: ExpandableCell {
 }
 ```
 
-## 2.ExpandableCellCollectionView 
-  is a custom collection view that provides expand/collapse interaction when tapping on cells. It is designed to be simple and easy to integrate without relying on a separate view controller.
+## 2. Use `ExpandableCellCollectionView`
+  `ExpandableCellCollectionView` is a custom `UICollectionView` that enables expand/collapse interaction when tapping on cells.
+  Key Notes:
 - You can either instantiate `ExpandableCellCollectionView` directly or subclass it for more customization.
-- When registering cells with this collection view, only cells of type `ExpandableCell` are allowed.
-- `ExpandableCellCollectionView` assigns itself as the collection view’s delegate to handle tap-to-expand/collapse interactions.
-  Do not manually assign a different `delegate` to this view.
-  If you need to implement additional behavior related to `UICollectionViewDelegate` or `UIScrollViewDelegate`,
-  subclass `ExpandableCellCollectionView` and implement the appropriate delegate methods there.
-- To enable the expand/collapse functionality, the following delegate methods are pre-implemented and cannot be overridden or implemented separately:
-  - `collectionView(_:shouldSelectItemAt:)`
-  - `collectionView(_:shouldDeselectItemAt:)`
-  - `collectionView(_:willDisplay:forItemAt:)`
-  
-  Instead, you can use following methods:
-  - `collectionView(_:shouldSelectItemAt:)`
-    
-    ``` swift
-    func collectionView(_ collectionView: ExpandableCellCollectionView, willDisplay cell: ExpandableCell, forItemAt indexPath: IndexPath)
-    ```
-
-  - `collectionView(_:shouldDeselectItemAt:)`
-
-    ``` swift
-    func collectionView(_ collectionView: ExpandableCellCollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool
-    ```
-  - `collectionView(_:willDisplay:forItemAt:)`
-
-    ``` swift
-    func collectionView(_ collectionView: ExpandableCellCollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool
-    ```
+- Only cells of type `ExpandableCell` are allowed to be registered.
+- Expanding/collapsing behavior is built-in and automatically triggered on selection.  
+  You can prevent the expanding behavior by returning false in `collectionView(_:shouldSelectItemAt:)`.
+- As of version 2.x, you can now assign your own `delegate` to `ExpandableCellCollectionView`, just like any `UICollectionView`.
+  ``` swift
+  expandableCellCollectionView.delegate = self // ✅ Allowed from version 2.0.0
+  ```
 ---
 
-# 🔗 Example Repository
+# 🧪 Example Project
 
 The following repository is an example that demonstrates how to use this library:
 <p align="left">
