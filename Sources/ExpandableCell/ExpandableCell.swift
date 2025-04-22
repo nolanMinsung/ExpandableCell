@@ -14,7 +14,7 @@ open class ExpandableCell: UICollectionViewCell {
     //MARK: - Private Properties
     
     private let collectionViewHorizontalSectionInset: CGFloat = 24
-    private lazy var widthConstraint = contentView.widthAnchor.constraint(equalToConstant: 0)
+    internal lazy var widthConstraint = contentView.widthAnchor.constraint(equalToConstant: 0)
     
     private lazy var mainContentViewLeadingConstraint =
     mainContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
@@ -122,30 +122,24 @@ private extension ExpandableCell {
     }
     
     private func setupLayout() {
+        // NOTE: if widthConstraint's priority is set to default priority(1000), it may conflict with `UIView-Encapsulated-Layout-Width`.
         widthConstraint.priority = .init(999)
         widthConstraint.isActive = true
         
         mainContentView.translatesAutoresizingMaskIntoConstraints = false
         detailContentView.translatesAutoresizingMaskIntoConstraints = false
         
-        mainContentViewLeadingConstraint.priority = .init(999)
-        mainContentViewTrailingConstraint.priority = .init(999)
         NSLayoutConstraint.activate([
             mainContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             mainContentViewLeadingConstraint,
             mainContentViewTrailingConstraint
         ])
         
-        detailContentViewLeadingConstraint.priority = .init(999)
-        detailContentViewTrailingConstraint.priority = .init(999)
         NSLayoutConstraint.activate([
             detailContentView.topAnchor.constraint(equalTo: mainContentView.bottomAnchor),
             detailContentViewLeadingConstraint,
             detailContentViewTrailingConstraint
         ])
-        
-        expandedBottomConstraint.priority = .defaultLow
-        shrinkedBottomConstraint.priority = .defaultLow
         
         expandedBottomConstraint.isActive = isSelected
         shrinkedBottomConstraint.isActive = !isSelected

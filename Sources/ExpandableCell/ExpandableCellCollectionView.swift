@@ -5,7 +5,6 @@
 //  Created by 김민성 on 3/23/25.
 //
 
-import os
 import UIKit
 
 /// A subclass of UICollectionView that is designed to work with `ExpandableCell` types.
@@ -49,9 +48,12 @@ open class ExpandableCellCollectionView: UICollectionView {
         }
     }
     
-    private let cellSelectionSerialQueue = DispatchQueue(label: "cellSelection") // serial queue
-    private let sectionInset: UIEdgeInsets
+    internal let cellSelectionSerialQueue = DispatchQueue(label: "cellSelection") // serial queue
+    
+    private(set) public var sectionInset: UIEdgeInsets
     private let minimumLineSpacing: CGFloat
+    
+    private var delegateInterceptor = ExpandableCellCollectionViewDelegateInterceptor(externalDelegate: nil)
     
     public init(
         contentInset: UIEdgeInsets = .zero,
@@ -71,11 +73,22 @@ open class ExpandableCellCollectionView: UICollectionView {
         self.contentInset = contentInset
         
         setupNotifications()
-        setupDelegates()
+        super.delegate = delegateInterceptor
     }
     
-    public init(sectionInsetInVertical vertical: CGFloat, horizontal: CGFloat, minimumLineSpacing: CGFloat) {
-        self.sectionInset = .init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
+    public init(
+        horizontalContentInset: CGFloat = .zero,
+        verticalContentInset: CGFloat = .zero,
+        horizontalSectionInset: CGFloat = .zero,
+        verticalSectionInset: CGFloat = .zero,
+        minimumLineSpacing: CGFloat = .zero
+    ) {
+        self.sectionInset = .init(
+            top: verticalSectionInset,
+            left: horizontalSectionInset,
+            bottom: verticalSectionInset,
+            right: horizontalSectionInset
+        )
         self.minimumLineSpacing = minimumLineSpacing
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
@@ -85,26 +98,14 @@ open class ExpandableCellCollectionView: UICollectionView {
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         super.init(frame: .zero, collectionViewLayout: flowLayout)
-        
+        self.contentInset = .init(
+            top: verticalContentInset,
+            left: horizontalContentInset,
+            bottom: verticalContentInset,
+            right: horizontalContentInset
+        )
         setupNotifications()
-        setupDelegates()
-    }
-    
-    public init(contentInsetInVertical vertical: CGFloat, horizontal: CGFloat, minimumLineSpacing: CGFloat) {
-        self.sectionInset = .zero
-        self.minimumLineSpacing = minimumLineSpacing
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = sectionInset
-        flowLayout.minimumLineSpacing = minimumLineSpacing
-        flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        
-        super.init(frame: .zero, collectionViewLayout: flowLayout)
-        self.contentInset = .init(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
-        
-        setupNotifications()
-        setupDelegates()
+        super.delegate = delegateInterceptor
     }
     
     required public init?(coder: NSCoder) {
@@ -112,13 +113,9 @@ open class ExpandableCellCollectionView: UICollectionView {
     }
     
     public override var delegate: (any UICollectionViewDelegate)? {
-        willSet {
-            assert(newValue === self || newValue == nil,
-            """
-            🚫ExpandableCellCollectionView delegate must be self. 
-            ❗️If you want to implement UICollectionViewDelegate method, 
-            please implement it in your own subclass of ExpandableCellCollectionView.
-            """)
+        didSet {
+            delegateInterceptor.externalDelegate = delegate
+            super.delegate = delegateInterceptor
         }
     }
     
@@ -145,10 +142,6 @@ open class ExpandableCellCollectionView: UICollectionView {
         )
     }
     
-    private func setupDelegates() {
-        self.delegate = self
-    }
-    
     private func deselectAll(_ completion: ((Bool) -> Void)? = nil) {
         guard let selectedIndexPaths = indexPathsForSelectedItems else { return }
         selectedIndexPaths.forEach { deselectItem(at: $0, animated: false) }
@@ -157,7 +150,7 @@ open class ExpandableCellCollectionView: UICollectionView {
         }
     }
     
-    @objc func UIContentSizeCategoryDidChange(_ notification: Notification) {
+    @objc private func UIContentSizeCategoryDidChange(_ notification: Notification) {
         // if system font size changes, collection view deselects all cells to avoid unexpected layout bug.
         deselectAll()
         self.collectionViewLayout.invalidateLayout()
@@ -168,107 +161,16 @@ open class ExpandableCellCollectionView: UICollectionView {
 // overriding UICollectionView's Instance methods/properties
 extension ExpandableCellCollectionView {
     
+    /// Gets the expandable cell object at the index path you specify.
+    /// - Parameter indexPath: The index path that specifies the section and item number of the expandable cell.
+    /// - Returns: The cell at the given index path if it is an instance of `ExpandableCell`; otherwise, `nil`.
     open override func cellForItem(at indexPath: IndexPath) -> ExpandableCell? {
         return (super.cellForItem(at: indexPath) as? ExpandableCell) ?? nil
     }
     
+    /// An array of visible cells that are cast to `ExpandableCell`.
     public var visibleExpandableCells: [ExpandableCell] {
         return super.visibleCells.map({ $0 as! ExpandableCell })
-    }
-    
-}
-
-extension ExpandableCellCollectionView {
-    
-    @objc open func collectionView(_ collectionView: ExpandableCellCollectionView, willDisplay cell: ExpandableCell, forItemAt indexPath: IndexPath) { }
-    
-    @objc open func collectionView(_ collectionView: ExpandableCellCollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    @objc open func collectionView(_ collectionView: ExpandableCellCollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-}
-
-// MARK: - UICollectionViewDelegate
-extension ExpandableCellCollectionView: UICollectionViewDelegate {
-    
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let expandableCell  = cell as? ExpandableCell else {
-            assertionFailure("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.")
-            os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
-            return
-        }
-        guard let collectionView = collectionView as? ExpandableCellCollectionView else { return }
-        
-        // Setting cell's width.
-        let horizontalInset: CGFloat = (sectionInset.left + sectionInset.right) + (contentInset.left + contentInset.right)
-        expandableCell.updateWidth(collectionView.bounds.width - horizontalInset)
-        self.collectionView(collectionView, willDisplay: expandableCell, forItemAt: indexPath)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard collectionView.cellForItem(at: indexPath) is ExpandableCell else {
-            assertionFailure("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.")
-            os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
-            return true
-        }
-        guard let collectionView = collectionView as? ExpandableCellCollectionView else { return false }
-            
-        if let cell = collectionView.cellForItem(at: indexPath) {
-                if !cell.isSelected {
-                    cell.applyExpansionState()
-                } else {
-                    cell.applyCollapsingState()
-                }
-            }
-            
-            let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
-            animator.addAnimations { [weak self] in
-                guard let self else { return }
-                if collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false {
-                    if self.collectionView(collectionView, shouldDeselectItemAt: indexPath) {
-                        collectionView.deselectItem(at: indexPath, animated: false)
-                        self.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
-                    }
-                } else {
-                    if self.collectionView(collectionView, shouldSelectItemAt: indexPath) {
-                        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
-                        self.delegate?.collectionView?(collectionView, didSelectItemAt: indexPath)
-                    }
-                }
-                collectionView.performBatchUpdates(nil)
-            }
-            
-            cellSelectionSerialQueue.async {
-                DispatchQueue.main.async { animator.startAnimation() }
-            }
-        return false
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        guard collectionView.allowsMultipleSelection else { return false }
-        guard let collectionView = collectionView as? ExpandableCellCollectionView else { return false }
-        if self.collectionView(collectionView, shouldDeselectItemAt: indexPath) {
-            
-            if let cell = collectionView.cellForItem(at: indexPath) {
-                cell.applyCollapsingState()
-            }
-            
-            let animator = UIViewPropertyAnimator(duration: animationSpeed.rawValue, dampingRatio: 1)
-            animator.addAnimations { [weak self] in
-                collectionView.deselectItem(at: indexPath, animated: false)
-                self?.delegate?.collectionView?(collectionView, didDeselectItemAt: indexPath)
-                collectionView.performBatchUpdates(nil)
-            }
-            
-            cellSelectionSerialQueue.async {
-                DispatchQueue.main.async { animator.startAnimation() }
-            }
-        }
-        return false
     }
     
 }
