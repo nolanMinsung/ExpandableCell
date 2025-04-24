@@ -33,7 +33,6 @@ internal class ExpandableCellCollectionViewDelegateInterceptor: NSObject, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("willDisplay at interceptor")
         guard let expandableCell  = cell as? ExpandableCell else {
             assertionFailure("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.")
             os_log("A cell registered in ExpandableCellCollectionView must inherit from ExpandableCell.", type: .error)
