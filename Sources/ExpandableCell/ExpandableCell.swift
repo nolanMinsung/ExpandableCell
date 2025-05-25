@@ -69,7 +69,7 @@ open class ExpandableCell: UICollectionViewCell {
     /// This method is executed within the animation block when the cell expands.
     /// Override this method in a subclass to define custom expand animations.
     ///
-    /// Calling `super` is not necessary.
+    /// The default implementation of this method does nothing.
     ///
     /// - Note: Since this method runs inside an animation block, any animatable changes made here will be animated.
     open func animateExpansion() { }
@@ -79,7 +79,7 @@ open class ExpandableCell: UICollectionViewCell {
     /// This method is executed within the animation block when the cell collapses.
     /// Override this method in a subclass to define custom collapse animations.
     ///
-    /// Calling `super` is not necessary.
+    /// The default implementation of this method does nothing.
     ///
     /// - Note: Since this method runs inside an animation block, any animatable changes made here will be animated.
     open func animateCollapse() { }
@@ -89,7 +89,7 @@ open class ExpandableCell: UICollectionViewCell {
     /// Override this method in a subclass to immediately apply the expanded state without triggering any animations.
     /// It allows configuring the UI elements to match the expanded appearance.
     ///
-    /// Calling `super` is not necessary.
+    /// The default implementation of this method does nothing.
     ///
     /// - Note: This method does not perform the expansion itself. It only updates the UI accordingly.
     open func applyExpansionState() { }
@@ -99,7 +99,7 @@ open class ExpandableCell: UICollectionViewCell {
     /// Override this method in a subclass to immediately apply the collapsed state without triggering any animations.
     /// It allows configuring the UI elements to match the collapsed appearance.
     ///
-    /// Calling `super` is not necessary.
+    /// The default implementation of this method does nothing.
     ///
     /// - Note: This method does not perform the collapse itself. It only updates the UI accordingly.
     open func applyCollapsingState() { }
