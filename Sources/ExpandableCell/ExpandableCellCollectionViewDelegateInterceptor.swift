@@ -91,8 +91,7 @@ internal class ExpandableCellCollectionViewDelegateInterceptor: NSObject, UIColl
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
         guard collectionView.allowsMultipleSelection else { return false }
         guard let collectionView = collectionView as? ExpandableCellCollectionView else { return false }
-        if self.collectionView(collectionView, shouldDeselectItemAt: indexPath) {
-            
+        if self.externalDelegate?.collectionView?(collectionView, shouldDeselectItemAt: indexPath) ?? true {
             if let cell = collectionView.cellForItem(at: indexPath) {
                 cell.applyCollapsingState()
             }
